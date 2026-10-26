@@ -16,20 +16,20 @@ if ($AllowedIPs -contains $CurrentIP) {
     Write-Host "[+] IP verified. Applying automated wallpaper..."
     
     # Replace with your raw GitHub image link or direct online wallpaper URL
-    $ImageUrl = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/wallpaper.jpg"
+    $ImageUrl = "https://raw.githubusercontent.com/ZehranWasim/powershell-lab08-scrript/main/wallpaper.jpg"
     $SavePath = "$env:TEMP\lab_wallpaper.jpg"
     
     try {
         Invoke-WebRequest -Uri $ImageUrl -OutFile $SavePath -UseBasicParsing -ErrorAction Stop
         
         Add-Type -TypeDefinition @"
-        using System;
-        using System.Runtime.InteropServices;
-        public class WallpaperSetter {
-            [DllImport("user32.dll", CharSet = CharSet.Auto)]
-            public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
-        }
-        "@
+using System;
+using System.Runtime.InteropServices;
+public class WallpaperSetter {
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+}
+"@
         
         [WallpaperSetter]::SystemParametersInfo(20, 0, $SavePath, 3)
         Write-Host "[+] Wallpaper updated successfully!" -ForegroundColor Green
