@@ -22,14 +22,8 @@ if ($AllowedIPs -contains $CurrentIP) {
     try {
         Invoke-WebRequest -Uri $ImageUrl -OutFile $SavePath -UseBasicParsing -ErrorAction Stop
         
-        Add-Type -TypeDefinition @"
-using System;
-using System.Runtime.InteropServices;
-public class WallpaperSetter {
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
-}
-"@
+        # Single-line string definition to avoid any heredoc whitespace/formatting errors
+        Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public class WallpaperSetter { [DllImport("user32.dll", CharSet = CharSet.Auto)] public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); }'
         
         [WallpaperSetter]::SystemParametersInfo(20, 0, $SavePath, 3)
         Write-Host "[+] Wallpaper updated successfully!" -ForegroundColor Green
