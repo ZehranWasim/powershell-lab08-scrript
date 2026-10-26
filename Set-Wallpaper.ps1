@@ -4,7 +4,7 @@
 #>
 
 # Define allowed client IP addresses in your lab network
-$AllowedIPs = @("192.168.1.10", "192.168.1.11", "192.168.1.12", "192.168.1.13")
+$AllowedIPs = @("192.168.1.10", "192.168.1.11", "192.168.1.12", "192.168.1.13", "10.228.221.193")
 
 # Get the local machine's active IPv4 address
 $CurrentIP = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias "Ethernet*", "Wi-Fi*" | Where-Object {$_.IPAddress -notlike "169.254.*" -and $_.IPAddress -notlike "127.*"} | Select-Object -ExpandProperty IPAddress | Select-Object -First 1)
